@@ -1975,11 +1975,11 @@ func (s *RetryLayerChannelStore) GroupSyncedChannelCount() (int64, error) {
 
 }
 
-func (s *RetryLayerChannelStore) IncrementMentionCount(channelID string, userID string, updateThreads bool, isRoot bool) error {
+func (s *RetryLayerChannelStore) IncrementMentionCount(channelID string, userIDs []string, updateThreads bool, isRoot bool) error {
 
 	tries := 0
 	for {
-		err := s.ChannelStore.IncrementMentionCount(channelID, userID, updateThreads, isRoot)
+		err := s.ChannelStore.IncrementMentionCount(channelID, userIDs, updateThreads, isRoot)
 		if err == nil {
 			return nil
 		}

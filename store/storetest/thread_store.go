@@ -308,7 +308,7 @@ func testThreadStorePopulation(t *testing.T, ss store.Store) {
 		_, err := ss.Thread().UpdateMembership(m)
 		require.NoError(t, err)
 
-		err = ss.Channel().IncrementMentionCount(newPosts[0].ChannelId, newPosts[0].UserId, true, false)
+		err = ss.Channel().IncrementMentionCount(newPosts[0].ChannelId, []string{newPosts[0].UserId}, true, false)
 		require.NoError(t, err)
 
 		assert.Eventually(t, func() bool {
