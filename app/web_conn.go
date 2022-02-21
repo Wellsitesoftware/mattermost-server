@@ -489,9 +489,9 @@ func (wc *WebConn) writePump() {
 
 			if evtOk {
 				wc.addToDeadQueue(evt)
+				println("Sending msg with sequence number ----------", evt.GetSequence(), "--- connection id ---", wc.GetConnectionID())
 			}
 
-			println("Sending msg with sequence number ----------", evt.GetSequence(), "--- connection id ---", wc.GetConnectionID())
 
 			if err := wc.writeMessageBuf(websocket.TextMessage, buf.Bytes()); err != nil {
 				wc.logSocketErr("websocket.send", err)
