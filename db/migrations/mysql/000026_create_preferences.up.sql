@@ -52,6 +52,7 @@ PREPARE createIndexIfNotExists FROM @preparedStatement;
 EXECUTE createIndexIfNotExists;
 DEALLOCATE PREPARE createIndexIfNotExists;
 
+DELIMITER $$
 CREATE PROCEDURE RenameSolarizedThemeWithUnderscore()
 BEGIN
     DECLARE finished INTEGER DEFAULT 0;
@@ -66,8 +67,7 @@ BEGIN
             WHERE Category = 'theme' AND Value LIKE '%solarized_%';
 
     -- declare NOT FOUND handler
-    DECLARE CONTINUE HANDLER
-    FOR NOT FOUND SET finished = 1;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
 
     OPEN preference;
 
@@ -79,12 +79,14 @@ BEGIN
 
         -- update affected rows
         UPDATE Preferences
-        SET Value = replace(curValue, 'solaraized_', 'solarized-')
+        SET Value = replace(curValue, 'solarized_', 'solarized-')
         WHERE Category = 'theme'
         AND UserId = curUserId
         AND Name = curName;
     END LOOP getPreference;
-END;
+END $$
+
+DELIMITER ;
 
 CALL RenameSolarizedThemeWithUnderscore();
 
